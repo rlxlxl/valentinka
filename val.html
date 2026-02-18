@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Полине с любовью ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        .heart-btn {
+            background: #ff4b6e;
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.5em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 15px rgba(255,75,110,0.4);
+            margin-bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .heart-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(255,75,110,0.6);
+        }
+
+        .heart-btn:active {
+            transform: scale(0.95);
+        }
+
+        .message {
+            font-size: 3em;
+            color: #ff4b6e;
+            opacity: 0;
+            transition: opacity 0.5s;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .message.show {
+            opacity: 1;
+        }
+
+        .heart {
+            color: #ff4b6e;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .footer {
+            margin-top: 20px;
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-hearts span {
+            position: absolute;
+            color: rgba(255,255,255,0.3);
+            font-size: 20px;
+            animation: float 6s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Плавающие сердечки на фоне -->
+    <div class="floating-hearts" id="floatingHearts"></div>
+
+    <div class="container">
+        <h1>💝 Для самой лучшей 💝</h1>
+        
+        <button class="heart-btn" onclick="showLove()">
+            <span class="heart">❤️</span>
+            Нажми меня
+            <span class="heart">❤️</span>
+        </button>
+
+        <div class="message" id="loveMessage">
+            <span>Я</span>
+            <span class="heart">❤️</span>
+            <span>тебя</span>
+            <span>люблю,</span>
+            <span>Поляяяя!</span>
+        </div>
+        
+        <div class="footer" id="counter">
+            ❤️ 0 раз сказано "люблю" ❤️
+        </div>
+    </div>
+
+    <script>
+        let clickCount = 0;
+        
+        function showLove() {
+            // Показываем сообщение
+            const message = document.getElementById('loveMessage');
+            message.classList.add('show');
+            
+            // Считаем клики
+            clickCount++;
+            document.getElementById('counter').innerHTML = `❤️ ${clickCount} ${getTimesWord(clickCount)} сказано "люблю" ❤️`;
+            
+            // Создаем дополнительные сердечки при клике
+            createFloatingHearts(10);
+        }
+
+        function getTimesWord(count) {
+            if (count % 10 === 1 && count % 100 !== 11) return "раз";
+            if ([2,3,4].includes(count % 10) && ![12,13,14].includes(count % 100)) return "раза";
+            return "раз";
+        }
+
+        // Функция для создания плавающих сердечек
+        function createFloatingHearts(count) {
+            const container = document.getElementById('floatingHearts');
+            
+            for(let i = 0; i < count; i++) {
+                const heart = document.createElement('span');
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.fontSize = (Math.random() * 30 + 10) + 'px';
+                heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                heart.style.opacity = Math.random() * 0.5 + 0.3;
+                container.appendChild(heart);
+                
+                // Удаляем сердечко после анимации
+                setTimeout(() => {
+                    heart.remove();
+                }, 6000);
+            }
+        }
+
+        // Создаем фоновые сердечки при загрузке страницы
+        for(let i = 0; i < 15; i++) {
+            setTimeout(() => {
+                createFloatingHearts(1);
+            }, i * 300);
+        }
+    </script>
+</body>
+</html>
